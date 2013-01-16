@@ -141,10 +141,15 @@ public class GMBrain extends JFrame {
   
   
   public GMBrain() {
+    System.out.println("initComponents");
     initComponents();
+    System.out.println("setUpFile");
     setUpFile();
+    System.out.println("toFront");
     toFront();
+    System.out.println("transferFocus");
     transferFocus();
+    System.out.println("statusMessage");
     statusMessage(initFile.getPath());
   }
   
@@ -1099,7 +1104,10 @@ public class GMBrain extends JFrame {
     
   public static void main(String[] args) {
     GMBrain thisProg = new GMBrain();
+    System.out.println("transferFocus");
     thisProg.transferFocus();
+    System.out.println("focus transferred.");
+    thisProg.show();
   }
     
   public void viewNode(GMNode n) {
@@ -1365,8 +1373,51 @@ public class GMBrain extends JFrame {
   }
     
   public void setUpFile() {
-    object = object_95_;
-    break while_0_;
+    initFile = new File(System.getProperty("user.dir") + File.separator + "secbrain.ini");
+    if(initFile.exists()) {
+      // read init file if exists and possible
+      try {
+        FileInputStream fileIn = new FileInputStream(initFile);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        String s = (String) in.readObject();
+        if (s.equals("No File Written")) 
+          presentFile = null;
+        else
+          presentFile = new File(s);
+        System.out.println("  presentFile: " + s);
+        monospaceToggle = in.readBoolean();
+        System.out.println("  monospaceToggle: " + monospaceToggle);
+        preserveRoot = in.readBoolean();
+        System.out.println("  preserveRoot: " + preserveRoot);
+        helpFrame.setSize((Dimension) in.readObject());
+        System.out.println("  helpframe size: " + helpFrame.getSize());
+        helpFrame.setLocation((Point) in.readObject());
+        System.out.println("  helpframe location: " + helpFrame.getLocation());
+        txtDescription.setFont((Font) in.readObject());
+        System.out.println("  txtdescription font: " + txtDescription.getFont());
+        iconsAreVisible = in.readBoolean();
+        System.out.println("  iconsAreVisible: " + iconsAreVisible);
+        in.close();
+        fileIn.close();
+      } catch (Exception e) {
+        System.out.println("Error reading File." + e.toString());
+        setUpDefaults();
+      }
+    } else {
+      // else, set up defaults and continue
+      setUpDefaults();
+      saveInitFile();
+    }
+  }
+  
+  public void setUpDefaults() {
+    presentFile = null;
+    monospaceToggle = false;
+    preserveRoot = true;
+    helpFrame.setSize(new Dimension(720, 450));
+    helpFrame.setLocation(new Point(360, 225));
+    txtDescription.setFont(new Font("Serif", 0, 12));
+    iconsAreVisible = true;
   }
     
   public void saveInitFile() {

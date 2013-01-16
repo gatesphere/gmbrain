@@ -1,0 +1,36 @@
+handle Bold, Italic, Underline, Fixed fonts.
+--toggles between mono and serif 9/2/03
+
+alphabetize nodes going into drop-down lists.
+--done 9/2/03
+
+figure out sensible way to fix NodeType persistance
+--done crappily 10/5/03
+
+add some form of .ini file so you can pick up where you left off.
+a) saves settings of program
+b) auto-loads last file you were working on
+c) updates as program exits
+done 10/6/03 still problematic
+
+add HTML tag inserters for 
+a) monospaced <PRE>,</PRE>
+b) tables? <TABLE>..<TR>..<TD> Table...row..datum
+done 10/6/03
+
+set up preferred fontStyles for the ini.
+done 10/8/03
+
+neaten up problems with unsavedbrains and .ini crap
+done, I think, 10/10/03
+
+improve keyboard shortcuts
+done mostly 10/9/03
+
+make the export features use the presentfile name
+decided not to 
+
+add "Load Help Web" to Help? menu
+done 10/10/03
+
+fix the text-losing issue with some menu items
