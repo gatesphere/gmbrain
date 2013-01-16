@@ -1155,6 +1155,12 @@ public class GMBrain extends JFrame {
       setTitle("GM's Second Brain: This file is not saved!");
     else
       setTitle("GM's 2nd Brain: " + presentFile.getName());
+    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      public void run() { 
+        jScrollPane2.getVerticalScrollBar().setValue(0);
+      }
+    });
+    jScrollPane2.getViewport().setViewPosition(new Point(0,0));
     repaint();
   }
     
@@ -1369,26 +1375,28 @@ public class GMBrain extends JFrame {
       try {
         FileInputStream fileIn = new FileInputStream(initFile);
         ObjectInputStream in = new ObjectInputStream(fileIn);
-        String s = (String) in.readObject();
-        if (s.equals("No File Written")) 
+        Object f = in.readObject();
+        if (f instanceof File)
+          presentFile = (File) f;
+        else if (f instanceof String)
           presentFile = null;
-        else
-          presentFile = new File(s);
-        System.out.println("  presentFile: " + s);
+        //System.out.println("  presentFile: " + f);
         monospaceToggle = in.readBoolean();
-        System.out.println("  monospaceToggle: " + monospaceToggle);
+        //System.out.println("  monospaceToggle: " + monospaceToggle);
         preserveRoot = in.readBoolean();
-        System.out.println("  preserveRoot: " + preserveRoot);
-        helpFrame.setSize((Dimension) in.readObject());
-        System.out.println("  helpframe size: " + helpFrame.getSize());
-        helpFrame.setLocation((Point) in.readObject());
-        System.out.println("  helpframe location: " + helpFrame.getLocation());
+        //System.out.println("  preserveRoot: " + preserveRoot);
+        this.setSize((Dimension) in.readObject());
+        //System.out.println("  helpframe size: " + helpFrame.getSize());
+        this.setLocation((Point) in.readObject());
+        //System.out.println("  helpframe location: " + helpFrame.getLocation());
         txtDescription.setFont((Font) in.readObject());
-        System.out.println("  txtdescription font: " + txtDescription.getFont());
+        //System.out.println("  txtdescription font: " + txtDescription.getFont());
         iconsAreVisible = in.readBoolean();
-        System.out.println("  iconsAreVisible: " + iconsAreVisible);
+        //System.out.println("  iconsAreVisible: " + iconsAreVisible);
         in.close();
         fileIn.close();
+        if (presentFile == null) loadHelpWeb();
+        else openFile();
       } catch (Exception e) {
         System.out.println("Error reading File." + e.toString());
         setUpDefaults();
@@ -1398,6 +1406,7 @@ public class GMBrain extends JFrame {
       setUpDefaults();
       saveInitFile();
     }
+    reFresh();
   }
   
   public void setUpDefaults() {
@@ -1408,6 +1417,7 @@ public class GMBrain extends JFrame {
     helpFrame.setLocation(new Point(360, 225));
     txtDescription.setFont(new Font("Serif", 0, 12));
     iconsAreVisible = true;
+    loadHelpWeb();
   }
     
   public void saveInitFile() {

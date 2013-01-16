@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: gmbrain.GMBrain
+Product-Name: GMsSecondBrain
+Package-Title: gmbrain
+Package-Version: 1.0
