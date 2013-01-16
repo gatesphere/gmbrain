@@ -9,6 +9,7 @@ public class NodeWeb implements Serializable {
   private Vector nodeList;
   static final long serialVersionUID = 7816144560997400379L;
     
+  @SuppressWarnings("unchecked")
   public NodeWeb() {
     nodeList = new Vector(10, 5);
     GMNode welcomeNode = new GMNode("Welcome to Your Second Brain!");
@@ -39,7 +40,8 @@ public class NodeWeb implements Serializable {
     }
     return tempnode;
   }
-    
+  
+  @SuppressWarnings("unchecked")
   public void addNode(GMNode n) {
     if (n instanceof GMNode) {
       nodeList.addElement(n);
@@ -59,7 +61,8 @@ public class NodeWeb implements Serializable {
       }
     }
   }
-    
+  
+  @SuppressWarnings("unchecked")  
   public Vector retrieveOrphans() {
     Vector orphanList = new Vector();
     GMNode tempnode = new GMNode();
@@ -164,7 +167,8 @@ public class NodeWeb implements Serializable {
     xout += "</BODY><HTML>";
     return xout;
   }
-    
+  
+  @SuppressWarnings("unchecked")
   public void swapNodePositions(int firstIndex, int secondIndex) {
     int t = 0;
     if (firstIndex > secondIndex) {

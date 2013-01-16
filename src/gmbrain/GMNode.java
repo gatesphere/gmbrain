@@ -140,7 +140,8 @@ public class GMNode implements Serializable {
       setType(t);
     }
   }
-    
+  
+  @SuppressWarnings("unchecked")
   public void addLinkTo(GMNode n, boolean twoWay) {
     nodeLinks.addElement(n);
     if (twoWay)
@@ -201,7 +202,8 @@ public class GMNode implements Serializable {
       System.out.println("Error reading a node: " + e.toString());
     }
   }
-    
+  
+  @SuppressWarnings("unchecked")
   private void orderLinks() {
     boolean sorted = false;
     if (!nodeLinks.isEmpty()) {
@@ -219,11 +221,13 @@ public class GMNode implements Serializable {
       }
     }
   }
-    
+  
+  @SuppressWarnings("unchecked")  
   public static void addGMNodeType(String n, URL u) {
     nodeTypes.add(new gmNodeType(n, u));
   }
-    
+  
+  @SuppressWarnings("unchecked")  
   public void addGMNodeType(gmNodeType n) {
     nodeTypes.add(n);
   }
@@ -251,7 +255,8 @@ public class GMNode implements Serializable {
     addGMNodeType(n);
     setType(n);
   }
-    
+  
+  @SuppressWarnings("unchecked")  
   public void addGMNodeType(String n) {
     nodeTypes.add(new gmNodeType(n));
   }

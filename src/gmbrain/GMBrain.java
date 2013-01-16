@@ -153,6 +153,7 @@ public class GMBrain extends JFrame {
   }
   
   // ------------------------------------ initComponents --------------
+  @SuppressWarnings("unchecked")
   private void initComponents() {
     helpFrame = new JFrame();
     txtHelpPane = new JScrollPane();
@@ -743,7 +744,7 @@ public class GMBrain extends JFrame {
   }
     
   private void btnTableDimReadyActionPerformed(ActionEvent evt) {
-    tblFrame.hide();
+    tblFrame.setVisible(false);
     generateTableTags();
     transferFocus();
   }
@@ -751,7 +752,7 @@ public class GMBrain extends JFrame {
   private void mnuAddTableTagsActionPerformed(ActionEvent evt) {
     tblFrame.setLocation(getLocation());
     tblFrame.setSize(205, 95);
-    tblFrame.show();
+    tblFrame.setVisible(true);
     tblFrame.transferFocus();
   }
     
@@ -888,7 +889,7 @@ public class GMBrain extends JFrame {
     }
     if (i == 0) {
       try {
-        presentNode.setIconURL(fc.getSelectedFile().toURL());
+        presentNode.setIconURL(fc.getSelectedFile().toURI().toURL());
       } catch (Exception e) {
         System.out.println("error with URL");
         statusMessage("Not a valid icon URL!");
@@ -930,7 +931,7 @@ public class GMBrain extends JFrame {
     txtHelpText.setText(presentWeb.getPrintputByTitle(presentNode.getTitle()));
     helpFrame.setSize(getSize());
     helpFrame.setLocation(getLocation());
-    helpFrame.show();
+    helpFrame.setVisible(true);
     helpFrame.transferFocus();
   }
     
@@ -1106,7 +1107,7 @@ public class GMBrain extends JFrame {
     System.out.println("transferFocus");
     thisProg.transferFocus();
     System.out.println("focus transferred.");
-    thisProg.show();
+    thisProg.setVisible(true);
   }
     
   public void viewNode(GMNode n) {
@@ -1125,17 +1126,14 @@ public class GMBrain extends JFrame {
     presentWeb.addNode(n);
   }
     
-  public void show() {
-    super.show();
-  }
-    
   public void loadWeb(NodeWeb nw) {
     presentWeb = nw;
     nwManager.setWeb(nw);
     viewNode(presentWeb.getRoot());
     presentWeb.trimNodeTypes();
   }
-    
+  
+  @SuppressWarnings("unchecked")
   public void reFresh() {
     txtNodeTitle.setText(presentNode.getTitle());
     txtDescription.setText(presentNode.getDescription());
@@ -1231,6 +1229,7 @@ public class GMBrain extends JFrame {
     setTitle("GMBrain " + presentFile.getName());
   }
     
+  @SuppressWarnings("unchecked")
   public void showTotalPrintPut(String SortType) {
     Vector sortList = new Vector();
     int i = 0;
@@ -1273,7 +1272,7 @@ public class GMBrain extends JFrame {
     txtHelpText.setText(printput);
     helpFrame.setSize(getSize());
     helpFrame.setLocation(getLocation());
-    helpFrame.show();
+    helpFrame.setVisible(true);
     helpFrame.transferFocus();
   }
     
@@ -1312,7 +1311,7 @@ public class GMBrain extends JFrame {
     txtHelpText.setText(s);
     helpFrame.setSize(getSize());
     helpFrame.setLocation(getLocation());
-    helpFrame.show();
+    helpFrame.setVisible(true);
     helpFrame.transferFocus();
   }
     
