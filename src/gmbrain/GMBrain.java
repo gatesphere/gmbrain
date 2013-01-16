@@ -101,7 +101,6 @@ public class GMBrain extends JFrame {
   private boolean preserveRoot = true;
   private File initFile;
   private boolean iconsAreVisible = true;
-  /*synthetic*/ static Class class$gmbrain$GMBrain;
     
   
   // ---------------------- myNodeCellRenderer class ------------------
@@ -116,7 +115,7 @@ public class GMBrain extends JFrame {
           setText(n.getTitle());
           try {
             if (iconsAreVisible) setIcon(n.getIcon());
-            else setIcon(new ImageIcon((GMBrain.class$gmbrain$GMBrain == null ? (GMBrain.class$gmbrain$GMBrain = class$("gmbrain.GMBrain")) : GMBrain.class$gmbrain$GMBrain).getResource("empty.gif")));
+            else setIcon(new ImageIcon(n.getClass().getResource("empty.gif")));
           } catch (Exception e) {
             System.out.println(e.toString());
           }
@@ -1145,12 +1144,7 @@ public class GMBrain extends JFrame {
       if (iconsAreVisible)
         lblNodeType.setIcon(presentNode.getIcon());
       else
-        lblNodeType.setIcon
-      (new ImageIcon((class$gmbrain$GMBrain == null
-            ? (class$gmbrain$GMBrain
-               = class$("gmbrain.GMBrain"))
-            : class$gmbrain$GMBrain)
-               .getResource("empty.gif")));
+        lblNodeType.setIcon(new ImageIcon(this.getClass().getResource("empty.gif")));
     } catch (Exception exception) {
       /* empty */
     }
@@ -1302,10 +1296,7 @@ public class GMBrain extends JFrame {
     String nl = System.getProperty("line.separator");
     viewNode(presentNode);
     try {
-      InputStream rin = (class$gmbrain$GMBrain == null
-       ? class$gmbrain$GMBrain = class$("gmbrain.GMBrain")
-       : class$gmbrain$GMBrain)
-          .getResourceAsStream(f);
+      InputStream rin = this.getClass().getResourceAsStream(f);
       DataInputStream dn = new DataInputStream(rin);
       s = "";
       int i = dn.available();
@@ -1525,13 +1516,5 @@ public class GMBrain extends JFrame {
       System.exit(0);
     } else if (answer == 1)
       System.exit(0);
-  }
-    
-  /*synthetic*/ static Class class$(String x0) {
-    try {
-      return Class.forName(x0);
-    } catch (ClassNotFoundException x1) {
-      throw new NoClassDefFoundError(x1.getMessage());
-    }
   }
 }

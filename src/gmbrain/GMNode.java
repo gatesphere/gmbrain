@@ -19,7 +19,6 @@ public class GMNode implements Serializable {
   private Vector nodeLinks;
   public static Vector nodeTypes = new Vector(3, 3);
   static final long serialVersionUID = -758913069199709057L;
-  /*synthetic*/ static Class class$gmbrain$GMNode;
     
   private static class gmNodeType implements Serializable {
     private String typeName = "Undefined";
@@ -27,41 +26,20 @@ public class GMNode implements Serializable {
     private URL iconURL;
   
     public gmNodeType(String t, URL iURL) {
-      typeIcon = new ImageIcon((GMNode.class$gmbrain$GMNode == null
-              ? (GMNode.class$gmbrain$GMNode
-                = class$("gmbrain.GMNode"))
-              : GMNode.class$gmbrain$GMNode)
-                .getResource("qmark.gif"));
-      iconURL = (GMNode.class$gmbrain$GMNode == null
-           ? GMNode.class$gmbrain$GMNode = class$("gmbrain.GMNode")
-           : GMNode.class$gmbrain$GMNode)
-             .getResource("qmark.gif");
+      typeIcon = new ImageIcon(this.getClass().getResource("qmark.gif"));
+      iconURL = this.getClass().getResource("qmark.gif");
       setName(t);
       setIconURL(iURL);
     }
   
     public gmNodeType() {
-      typeIcon = new ImageIcon((GMNode.class$gmbrain$GMNode == null
-              ? (GMNode.class$gmbrain$GMNode
-                = class$("gmbrain.GMNode"))
-              : GMNode.class$gmbrain$GMNode)
-                .getResource("qmark.gif"));
-      iconURL = (GMNode.class$gmbrain$GMNode == null
-           ? GMNode.class$gmbrain$GMNode = class$("gmbrain.GMNode")
-           : GMNode.class$gmbrain$GMNode)
-             .getResource("qmark.gif");
+      typeIcon = new ImageIcon(this.getClass().getResource("qmark.gif"));
+      iconURL = this.getClass().getResource("qmark.gif");
     }
   
     public gmNodeType(String t) {
-      typeIcon = new ImageIcon((GMNode.class$gmbrain$GMNode == null
-              ? (GMNode.class$gmbrain$GMNode
-                = class$("gmbrain.GMNode"))
-              : GMNode.class$gmbrain$GMNode)
-                .getResource("qmark.gif"));
-      iconURL = (GMNode.class$gmbrain$GMNode == null
-           ? GMNode.class$gmbrain$GMNode = class$("gmbrain.GMNode")
-           : GMNode.class$gmbrain$GMNode)
-             .getResource("qmark.gif");
+      typeIcon = new ImageIcon(this.getClass().getResource("qmark.gif"));
+      iconURL = this.getClass().getResource("qmark.gif");
       setName(t);
     }
   
@@ -196,10 +174,7 @@ public class GMNode implements Serializable {
   }
     
   public Icon getIcon() {
-    Icon icn = new ImageIcon((class$gmbrain$GMNode == null
-           ? class$gmbrain$GMNode = class$("gmbrain.GMNode")
-           : class$gmbrain$GMNode)
-             .getResource("qmark.gif"));
+    Icon icn = new ImageIcon(this.getClass().getResource("qmark.gif"));
     icn = type.getIcon();
     return icn;
   }
@@ -287,13 +262,5 @@ public class GMNode implements Serializable {
     
   public void setTypeName(String t) {
     type.setName(t);
-  }
-    
-  /*synthetic*/ static Class class$(String x0) {
-    try {
-      return Class.forName(x0);
-    } catch (ClassNotFoundException x1) {
-      throw new NoClassDefFoundError(x1.getMessage());
-    }
   }
 }
