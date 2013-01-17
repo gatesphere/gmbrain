@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.*;
 
 public class GMBrain extends JFrame {
   // fields
@@ -93,6 +94,9 @@ public class GMBrain extends JFrame {
   private JMenuItem mnuAlphaSortManager;
   private JMenuItem mnuGetPrintPut;
   private JButton btnGotoNode;
+  private JTabbedPane markdownTabPane;
+  private JEditorPane markdownEditorPane;
+  private JScrollPane markdownEditorScrollPane;
   private File presentFile;
   private JFileChooser fc = new JFileChooser();
   private String defaultType = "Undefined";
@@ -232,6 +236,9 @@ public class GMBrain extends JFrame {
     mnuFontBigger = new JMenuItem();
     mnuFontSmaller = new JMenuItem();
     mnuMonospace = new JMenuItem();
+    markdownTabPane = new JTabbedPane();
+    markdownEditorScrollPane = new JScrollPane();
+    markdownEditorPane = new JEditorPane("text/html", "");
     helpFrame.getContentPane().setLayout(new BorderLayout(10, 10));
     helpFrame.setTitle("Text Viewer");
     helpFrame.setMaximizedBounds(new Rectangle(300, 250, 300, 250));
@@ -380,7 +387,24 @@ public class GMBrain extends JFrame {
       }
     });
     jScrollPane2.setViewportView(txtDescription);
-    nodeViewer.add(jScrollPane2, "Center");
+    markdownEditorPane.addKeyListener(new KeyAdapter() {
+	  public void keyTyped(KeyEvent evt) {
+		 GMBrain.this.txtDescriptionKeyTyped(evt);
+	  }
+	});
+	markdownEditorPane.setEditable(false);
+	markdownEditorPane.setText(txtDescription.getText());
+	markdownEditorScrollPane.setViewportView(markdownEditorPane);
+    markdownTabPane.addTab("Edit", null, jScrollPane2, "Edit this node's markdown");
+    markdownTabPane.addTab("View", null, markdownEditorScrollPane, "View this node's rendered markdown");
+    markdownTabPane.setTabPlacement(JTabbedPane.BOTTOM);
+    markdownTabPane.addChangeListener(new ChangeListener() {
+	  public void stateChanged(ChangeEvent e) {
+		GMBrain.this.markdownTabPaneChanged(e);
+	  }
+	});
+    //nodeViewer.add(jScrollPane2, "Center");
+    nodeViewer.add(markdownTabPane, "Center");
     getContentPane().add(nodeViewer, "Center");
     jMenu1.setMnemonic('F');
     jMenu1.setText("File");
@@ -993,6 +1017,14 @@ public class GMBrain extends JFrame {
       presentFile = fc.getSelectedFile();
       openFile();
     }
+  }
+  
+  private void markdownTabPaneChanged(ChangeEvent evt) {
+	int tab = markdownTabPane.getSelectedIndex();
+	if (tab == 1) {
+	  // view pane -- repopulate with new data
+	  markdownEditorPane.setText(txtDescription.getText());
+	}
   }
     
   private void mnuNewActionPerformed(ActionEvent evt) {
