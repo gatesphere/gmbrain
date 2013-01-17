@@ -1413,8 +1413,9 @@ public class GMBrain extends JFrame {
     presentFile = null;
     monospaceToggle = false;
     preserveRoot = true;
-    helpFrame.setSize(new Dimension(720, 450));
-    helpFrame.setLocation(new Point(360, 225));
+    this.setSize(new Dimension(720, 450));
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    setLocation((screenSize.width - 720) / 2, (screenSize.height - 450) / 2);
     txtDescription.setFont(new Font("Serif", 0, 12));
     iconsAreVisible = true;
     loadHelpWeb();
