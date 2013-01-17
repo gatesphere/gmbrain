@@ -11,6 +11,7 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
+import org.markdown4j.*;
 
 public class GMBrain extends JFrame {
   // fields
@@ -1023,8 +1024,17 @@ public class GMBrain extends JFrame {
 	int tab = markdownTabPane.getSelectedIndex();
 	if (tab == 1) {
 	  // view pane -- repopulate with new data
-	  markdownEditorPane.setText(txtDescription.getText());
-	}
+	  try {
+	    String html = new Markdown4jProcessor().process(txtDescription.getText());
+	    markdownEditorPane.setText(html);
+	    
+	  } catch (IOException e) {
+		System.out.println("Error in markdown processing...");
+		System.out.println(e);
+		markdownEditorPane.setText(txtDescription.getText());
+      }
+    }
+    reFresh();
   }
     
   private void mnuNewActionPerformed(ActionEvent evt) {
@@ -1169,6 +1179,14 @@ public class GMBrain extends JFrame {
   public void reFresh() {
     txtNodeTitle.setText(presentNode.getTitle());
     txtDescription.setText(presentNode.getDescription());
+    try {
+      String html = new Markdown4jProcessor().process(txtDescription.getText());
+      markdownEditorPane.setText(html);
+    } catch (IOException e) {
+	  System.out.println("Problem processing markdown...");
+	  System.out.println(e);
+	  markdownEditorPane.setText(txtDescription.getText());
+	}
     lblNodeType.setText(presentNode.getType());
     try {
       if (iconsAreVisible)
@@ -1190,9 +1208,12 @@ public class GMBrain extends JFrame {
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
       public void run() { 
         jScrollPane2.getVerticalScrollBar().setValue(0);
+        markdownEditorScrollPane.getVerticalScrollBar().setValue(0);
       }
     });
     jScrollPane2.getViewport().setViewPosition(new Point(0,0));
+    markdownEditorScrollPane.getViewport().setViewPosition(new Point(0,0));
+    System.out.println("scrollpanes have been repositioned");
     repaint();
   }
     

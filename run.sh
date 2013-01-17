@@ -10,7 +10,7 @@ CLASSPATH=.
 # build classpath
 pushd $LIBDIR
 for lib in `ls *.jar`; do
-  CLASSPATH=${CLASSPATH}:../${LIBDIR}/${lib}
+  CLASSPATH=${CLASSPATH}:`pwd`/${lib}
 done
 popd
 
