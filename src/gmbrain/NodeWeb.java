@@ -2,8 +2,10 @@
  * Visit http://jode.sourceforge.net/
  */
 package gmbrain;
+
 import java.io.Serializable;
 import java.util.Vector;
+import org.markdown4j.*;
 
 public class NodeWeb implements Serializable {
   private Vector nodeList;
@@ -147,12 +149,17 @@ public class NodeWeb implements Serializable {
       try {
         String D = tempNode.getDescription();
         D = D.toString();
+        String nodeHtml = new Markdown4jProcessor().process(D);
+        System.out.println(nodeHtml);
+        xout += nodeHtml;
+        /*
         for (int k = 0; k < D.length(); k++) {
           if (D.substring(k, k + 1).equals("\n") || D.substring(k, k + 1).equals("\r"))
             xout += "<BR>";
           else
             xout += D.substring(k, k + 1);
         }
+        */
       } catch (Exception exception) {
         /* empty */
       }

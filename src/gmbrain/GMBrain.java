@@ -101,7 +101,7 @@ public class GMBrain extends JFrame {
   private File presentFile;
   private JFileChooser fc = new JFileChooser();
   private String defaultType = "Undefined";
-  private boolean monospaceToggle = false;
+  private boolean monospaceToggle = true;
   private NodeWebManager nwManager = new NodeWebManager();
   private boolean preserveRoot = true;
   private File initFile;
@@ -145,15 +145,10 @@ public class GMBrain extends JFrame {
   
   
   public GMBrain() {
-    System.out.println("initComponents");
     initComponents();
-    System.out.println("setUpFile");
     setUpFile();
-    System.out.println("toFront");
     toFront();
-    System.out.println("transferFocus");
     transferFocus();
-    System.out.println("statusMessage");
     statusMessage(initFile.getPath());
   }
   
@@ -386,24 +381,22 @@ public class GMBrain extends JFrame {
       public void keyTyped(KeyEvent evt) {
         GMBrain.this.txtDescriptionKeyTyped(evt);
       }
+      public void keyReleased(KeyEvent evt) {
+        GMBrain.this.txtDescriptionKeyTyped(evt);
+      }
     });
     jScrollPane2.setViewportView(txtDescription);
-    markdownEditorPane.addKeyListener(new KeyAdapter() {
-	  public void keyTyped(KeyEvent evt) {
-		 GMBrain.this.txtDescriptionKeyTyped(evt);
-	  }
-	});
-	markdownEditorPane.setEditable(false);
-	markdownEditorPane.setText(txtDescription.getText());
-	markdownEditorScrollPane.setViewportView(markdownEditorPane);
+	  markdownEditorPane.setEditable(false);
+	  markdownEditorPane.setText(txtDescription.getText());
+	  markdownEditorScrollPane.setViewportView(markdownEditorPane);
     markdownTabPane.addTab("Edit", null, jScrollPane2, "Edit this node's markdown");
     markdownTabPane.addTab("View", null, markdownEditorScrollPane, "View this node's rendered markdown");
     markdownTabPane.setTabPlacement(JTabbedPane.BOTTOM);
     markdownTabPane.addChangeListener(new ChangeListener() {
-	  public void stateChanged(ChangeEvent e) {
-		GMBrain.this.markdownTabPaneChanged(e);
-	  }
-	});
+	    public void stateChanged(ChangeEvent e) {
+		    GMBrain.this.markdownTabPaneChanged(e);
+	    }
+	  });
     //nodeViewer.add(jScrollPane2, "Center");
     nodeViewer.add(markdownTabPane, "Center");
     getContentPane().add(nodeViewer, "Center");
@@ -1021,17 +1014,21 @@ public class GMBrain extends JFrame {
   }
   
   private void markdownTabPaneChanged(ChangeEvent evt) {
-	int tab = markdownTabPane.getSelectedIndex();
-	if (tab == 1) {
-	  // view pane -- repopulate with new data
-	  try {
-	    String html = new Markdown4jProcessor().process(txtDescription.getText());
-	    markdownEditorPane.setText(html);
-	    
-	  } catch (IOException e) {
-		System.out.println("Error in markdown processing...");
-		System.out.println(e);
-		markdownEditorPane.setText(txtDescription.getText());
+	  // save tab contents
+    if (presentNode != null) {
+      presentNode.setTitle(txtNodeTitle.getText());
+      presentNode.setDescription(txtDescription.getText());
+    }
+    int tab = markdownTabPane.getSelectedIndex();
+	  if (tab == 1) {
+	    // view pane -- repopulate with new data
+	    try {
+	      String html = new Markdown4jProcessor().process(txtDescription.getText());
+	      markdownEditorPane.setText(html);
+      } catch (IOException e) {
+        System.out.println("Error in markdown processing...");
+        System.out.println(e);
+        markdownEditorPane.setText(txtDescription.getText());
       }
     }
     reFresh();
@@ -1121,11 +1118,16 @@ public class GMBrain extends JFrame {
   }
     
   private void txtDescriptionKeyTyped(KeyEvent evt) {
-    /* empty */
+    if (presentNode != null) {
+      presentNode.setDescription(txtDescription.getText());
+    }
   }
     
   private void txtNodeTitleKeyTyped(KeyEvent evt) {
     /* empty */
+    if (presentNode != null) {
+      presentNode.setTitle(txtNodeTitle.getText());
+    }
   }
     
   private void btnAddLinkActionPerformed(ActionEvent evt) {
@@ -1213,7 +1215,6 @@ public class GMBrain extends JFrame {
     });
     jScrollPane2.getViewport().setViewPosition(new Point(0,0));
     markdownEditorScrollPane.getViewport().setViewPosition(new Point(0,0));
-    System.out.println("scrollpanes have been repositioned");
     repaint();
   }
     
@@ -1433,19 +1434,12 @@ public class GMBrain extends JFrame {
           presentFile = (File) f;
         else if (f instanceof String)
           presentFile = null;
-        //System.out.println("  presentFile: " + f);
         monospaceToggle = in.readBoolean();
-        //System.out.println("  monospaceToggle: " + monospaceToggle);
         preserveRoot = in.readBoolean();
-        //System.out.println("  preserveRoot: " + preserveRoot);
         this.setSize((Dimension) in.readObject());
-        //System.out.println("  helpframe size: " + helpFrame.getSize());
         this.setLocation((Point) in.readObject());
-        //System.out.println("  helpframe location: " + helpFrame.getLocation());
         txtDescription.setFont((Font) in.readObject());
-        //System.out.println("  txtdescription font: " + txtDescription.getFont());
         iconsAreVisible = in.readBoolean();
-        //System.out.println("  iconsAreVisible: " + iconsAreVisible);
         in.close();
         fileIn.close();
         if (presentFile == null) loadHelpWeb();
@@ -1464,7 +1458,7 @@ public class GMBrain extends JFrame {
   
   public void setUpDefaults() {
     presentFile = null;
-    monospaceToggle = false;
+    monospaceToggle = true;
     preserveRoot = true;
     this.setSize(new Dimension(720, 450));
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
