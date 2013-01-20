@@ -372,7 +372,7 @@ public class GMBrain extends JFrame {
     lblNotificationBar.setBackground(new Color(204, 255, 204));
     lblNotificationBar.setForeground(new Color(255, 0, 255));
     lblNotificationBar.setText("jLabel1");
-    nodeViewer.add(lblNotificationBar, "South");
+    //nodeViewer.add(lblNotificationBar, "South");
     txtDescription.setColumns(40);
     txtDescription.setLineWrap(true);
     txtDescription.setRows(30);
@@ -400,6 +400,7 @@ public class GMBrain extends JFrame {
     //nodeViewer.add(jScrollPane2, "Center");
     nodeViewer.add(markdownTabPane, "Center");
     getContentPane().add(nodeViewer, "Center");
+    getContentPane().add(lblNotificationBar, "South");
     jMenu1.setMnemonic('F');
     jMenu1.setText("File");
     mnuNew.setMnemonic('N');
@@ -1463,7 +1464,7 @@ public class GMBrain extends JFrame {
     this.setSize(new Dimension(720, 450));
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     setLocation((screenSize.width - 720) / 2, (screenSize.height - 450) / 2);
-    txtDescription.setFont(new Font("Serif", 0, 12));
+    txtDescription.setFont(new Font("Monospaced", 0, 12));
     iconsAreVisible = true;
     loadHelpWeb();
   }
