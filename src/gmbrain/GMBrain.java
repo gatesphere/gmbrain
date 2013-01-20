@@ -98,6 +98,9 @@ public class GMBrain extends JFrame {
   private JTabbedPane markdownTabPane;
   private JEditorPane markdownEditorPane;
   private JScrollPane markdownEditorScrollPane;
+  private JTabbedPane toolTabPane;
+  private JPanel docwebPane;
+  private JPanel dierollerPane;
   private File presentFile;
   private JFileChooser fc = new JFileChooser();
   private String defaultType = "Undefined";
@@ -235,6 +238,10 @@ public class GMBrain extends JFrame {
     markdownTabPane = new JTabbedPane();
     markdownEditorScrollPane = new JScrollPane();
     markdownEditorPane = new JEditorPane("text/html", "");
+    toolTabPane = new JTabbedPane();
+    docwebPane = new JPanel();
+    docwebPane.setLayout(new BorderLayout(5, 3));
+    dierollerPane = new JPanel();
     helpFrame.getContentPane().setLayout(new BorderLayout(10, 10));
     helpFrame.setTitle("Text Viewer");
     helpFrame.setMaximizedBounds(new Rectangle(300, 250, 300, 250));
@@ -350,7 +357,7 @@ public class GMBrain extends JFrame {
     });
     jScrollPane1.setViewportView(linkDisplay);
     pnlLinkViewer.add(jScrollPane1, "Center");
-    getContentPane().add(pnlLinkViewer, "East");
+    docwebPane.add(pnlLinkViewer, "East");
     nodeViewer.setLayout(new BorderLayout(3, 3));
     titlePanel.setLayout(new BorderLayout());
     txtNodeTitle.setText("txtNodeTitle");
@@ -397,10 +404,18 @@ public class GMBrain extends JFrame {
 		    GMBrain.this.markdownTabPaneChanged(e);
 	    }
 	  });
-    //nodeViewer.add(jScrollPane2, "Center");
     nodeViewer.add(markdownTabPane, "Center");
-    getContentPane().add(nodeViewer, "Center");
+    docwebPane.add(nodeViewer, "Center");
     getContentPane().add(lblNotificationBar, "South");
+    getContentPane().add(toolTabPane, "Center");
+    toolTabPane.addTab("DocWeb", null, docwebPane, "View and edit the DocWeb");
+    toolTabPane.addTab("Die Roller", null, dierollerPane, "Roll some dice, with a history");
+    toolTabPane.setTabPlacement(JTabbedPane.BOTTOM);
+    toolTabPane.addChangeListener(new ChangeListener() {
+	    public void stateChanged(ChangeEvent e) {
+		    GMBrain.this.toolTabPaneChanged(e);
+	    }
+	  });
     jMenu1.setMnemonic('F');
     jMenu1.setText("File");
     mnuNew.setMnemonic('N');
@@ -1012,6 +1027,10 @@ public class GMBrain extends JFrame {
       presentFile = fc.getSelectedFile();
       openFile();
     }
+  }
+  
+  private void toolTabPaneChanged(ChangeEvent evt) {
+    int tab = toolTabPane.getSelectedIndex();
   }
   
   private void markdownTabPaneChanged(ChangeEvent evt) {
